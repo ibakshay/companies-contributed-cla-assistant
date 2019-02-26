@@ -27,8 +27,10 @@ app.get('/companies-contributed-cla', (req, res) => {
   }).catch(function(err) {
     console.log('The API call to get all the contributors failed', err);
   }).then(function() {
+    /* API calls to all the user profile endpoints to get the company information
+      for each contributor by grouping it by promises using Promise.map provided by the bluebird module .*/
     Promise.map(userUrls, function(userUrl) {
-      return request(userUrl).then(function(response) { // external API Calls using promise for fetching company names of all the contributors
+      return request(userUrl).then(function(response) { 
         var responseObj = JSON.parse(response);
         /*for getting  all the company names from response  and storing them  in an Array (companyNames) */
         getCompanyNames(responseObj);
