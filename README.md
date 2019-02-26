@@ -1,6 +1,6 @@
 # companies-contributed-cla-assistant
 
-Developed an API in `node js`  for fetching all the companies who contributed to `CLA assistant`  including  number of contributors for each company. This node Application will run on a `express server` which will in turn call the external APIs of the GitHub using `request-promise` which is a simplified HTTP request' with promise support.  By default HTTP response codes other than 2XX will cause the promise to be rejected.  
+Developed an API in `node js`  for getting  all the companies who contributed to `CLA assistant` open-source project including  number of contributors for each company. This node Application will run on a `express server` which will in turn call the external APIs of the GitHub using `request-promise` which is a simplified HTTP request' with promise support.  By default HTTP response codes other than 2XX will cause the promise to be rejected.  
 
 The first external API call to https://api.github.com/repos/cla-assistant/cla-assistant/contributors which is a GitHub public API,  is for  fetching  all the contributors from  the CLA assistant. Since the Github rest API to return multiple items will be paginated to 30 items per page  by default, the response will be a list of 30 contributors of first page.
 
