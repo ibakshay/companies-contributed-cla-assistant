@@ -1,17 +1,17 @@
 const express = require('express');
 const _ = require('lodash');
 const request = require("request-promise");
-var promise = require("bluebird");
+const Promise = require("bluebird");
 const app = express();
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`listening on port ${port}`));
 
-const companyNames = [];
-const userUrls = [];
+var companyNames = [];
+var userUrls = [];
 
 /*Initial API call for this  App server*/
-app.get("/companies-contributed", (req, res) => {
-  var options = {
+app.get("/companies-contributed-cla", (req, res) => {
+  var contributors = {
     url: "https://api.github.com/repos/cla-assistant/cla-assistant/contributors",
     method: 'GET',
     headers: {
@@ -20,27 +20,27 @@ app.get("/companies-contributed", (req, res) => {
   };
 
   /* first external API call from this App server for getting all the contributors details */
-  request(options).then(function(response) {
-    const responseArr = JSON.parse(response);
-  /*for getting all the users  profile endpoints  from the response and storing them in an array (userUrls) with header information*/
+  request(contributors).then(function(response) {
+    var responseArr = JSON.parse(response);
+    /*for getting all the users  profile endpoints  from the response and storing them in an array (userUrls) with header information*/
     getUsersUrl(responseArr);
   }).catch(function(err) {
     console.log("The API call to get all the contributors failed ", err);
   }).then(function() {
-    promise.map(userUrls, function(options) {
-      return request(options).then(function(response) { // external API Calls using promise for fetching company names of all the contributors
-        const responseObj = JSON.parse(response);
-  /*for getting  all the company names from response  and storing them  in an Array (companyNames) */
+    Promise.map(userUrls, function(userUrl) {
+      return request(userUrl).then(function(response) { // external API Calls using promise for fetching company names of all the contributors
+        var responseObj = JSON.parse(response);
+        /*for getting  all the company names from response  and storing them  in an Array (companyNames) */
         getCompanyNames(responseObj);
       });
     }).catch(function(err) {
-      console.log("The API call  to get the company name of the contributor  failed ", err);
+      console.log("The API call  to user profile for getting company details is failed  ", err);
     }).then(function() {
-  /*for counting the number of contributors in each company and sorting based on most contributors at the top*/
-      const sortedCompanyInfo = getSortedCompanyList(companyNames);
+      /*for counting the number of contributors in each company and sorting based on most contributors at the top*/
+      var sortedCompanyInfo = getSortedCompanyList(companyNames);
 
-  /* the final response (output)  is a list with companies   and number of contributors to each company is displayed in JSON format
-    and is also sorted in such a way that the company with most number  of contributors will be displayed on the top */
+      /* the final response (output)  is a list with companies   and number of contributors to each company is displayed in JSON format
+        and is also sorted in such a way that the company with most number  of contributors will be displayed on the top */
       res.send(JSON.stringify(sortedCompanyInfo));
     });
 
@@ -51,7 +51,7 @@ app.get("/companies-contributed", (req, res) => {
 
 function getUsersUrl(responseArr) {
   responseArr.forEach((item, index, array) => {
-    const urlObj = {
+    var urlObj = {
       url: item.url,
       method: 'GET',
       headers: {
