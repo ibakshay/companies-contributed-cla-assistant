@@ -1,7 +1,7 @@
 const express = require('express');
 const _ = require('lodash');
-const request = require("request-promise");
-const Promise = require("bluebird");
+const request = require('request-promise');
+const Promise = require('bluebird');
 const app = express();
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`listening on port ${port}`));
@@ -10,9 +10,9 @@ var companyNames = [];
 var userUrls = [];
 
 /*Initial API call for this  App server*/
-app.get("/companies-contributed-cla", (req, res) => {
+app.get('/companies-contributed-cla', (req, res) => {
   var contributors = {
-    url: "https://api.github.com/repos/cla-assistant/cla-assistant/contributors",
+    url: 'https://api.github.com/repos/cla-assistant/cla-assistant/contributors',
     method: 'GET',
     headers: {
       'user-agent': 'companies-contributed-cla-App'
@@ -25,7 +25,7 @@ app.get("/companies-contributed-cla", (req, res) => {
     /*for getting all the users  profile endpoints  from the response and storing them in an array (userUrls) with header information*/
     getUsersUrl(responseArr);
   }).catch(function(err) {
-    console.log("The API call to get all the contributors failed ", err);
+    console.log('The API call to get all the contributors failed', err);
   }).then(function() {
     Promise.map(userUrls, function(userUrl) {
       return request(userUrl).then(function(response) { // external API Calls using promise for fetching company names of all the contributors
@@ -34,7 +34,7 @@ app.get("/companies-contributed-cla", (req, res) => {
         getCompanyNames(responseObj);
       });
     }).catch(function(err) {
-      console.log("The API call  to user profile for getting company details is failed  ", err);
+      console.log('The API call  to user profile for getting company details is failed', err);
     }).then(function() {
       /*for counting the number of contributors in each company and sorting based on most contributors at the top*/
       var sortedCompanyInfo = getSortedCompanyList(companyNames);
@@ -66,7 +66,7 @@ function getUsersUrl(responseArr) {
 
 function getCompanyNames(responseObj) {
   if (responseObj.company === null) {
-    responseObj.company = "Unknown";
+    responseObj.company = 'Unknown';
   }
   companyNames.push(responseObj);
 }
