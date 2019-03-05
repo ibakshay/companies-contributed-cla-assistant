@@ -33,7 +33,8 @@ app.get('/companies-contributed-cla', (req, res) => {
         return request(userUrl).then(function(response) {
           var responseObj = JSON.parse(response);
           /*for getting  all the company names from response  and storing them  in an Array (companyNames) */
-          return responseObj.company === null ? responseObj.company = "Unknown": responseObj.company ;
+          var companyNames = responseObj.company === null ? responseObj.company = "Unknown": responseObj.company ;
+          return companyNames ;
         });
       }, {concurrency: 100})
       .catch(function(err) {
@@ -71,7 +72,7 @@ function getSortedCompanyList(companyNames) {
   var companyInfo = _.countBy(companyNames);
   /* for  sorting the result of _.countBy (companyInfo) in descending order and storing in an array (sortedCompanyInfo)*/
   var sortedCompanyInfo = _.chain(companyInfo). //
-  map(function(currentValue, index) {
+  map((currentValue, index) => {
       return {
         company: index,
         contributors: currentValue
