@@ -16,7 +16,6 @@ app.get('/companies-contributed-cla', (req, res) => {
     method: 'GET',
     headers: {
       'user-agent': 'companies-contributed-cla-App',
-      'Authorization': 'token ca3dfa226e7667e1a4f404ff7b567e639905496b'
     }
   };
   /* first external API call from this App server for getting all the contributors details */
@@ -59,7 +58,6 @@ function getUsersUrl(response) {
       method: 'GET',
       headers: {
         'user-agent': 'companies-contributed-cla-App',
-        'Authorization': 'token ca3dfa226e7667e1a4f404ff7b567e639905496b'
       }
     };
     return urlObj;
