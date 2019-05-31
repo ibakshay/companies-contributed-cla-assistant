@@ -81,4 +81,6 @@ The output in JSON format is as follows:
 "contributors": 1
 }
 ]
+
+cla assistant bot added
 ```
