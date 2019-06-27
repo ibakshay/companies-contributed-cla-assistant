@@ -6,7 +6,7 @@ The first external API call to https://api.github.com/repos/cla-assistant/cla-as
 
 After fetching  all the users profile  endpoints from the response of  first API call,   there is  subsequent API calls to all the user profile endpoints  to get   the company information  for each contributor by grouping it by  promises using `Promise.map`  provided by the `bluebird` module .  Promise.map helps in achieving `concurrency`, Hence all the  GET requests  to fetch  the company information  from  each user profile endpoint is concurrent . and finally, if all the API calls succeeded then the promise will resolve and even if one API  call is failed then the promise won't be resolved and rejected. 
 
-After getting the company details for each contributor, the response (output ) will be a list in `JSON format`  with company name and number of contributors for that respective company. This list also includes an entry for the case where the contributor has not entered any company information as `"Unknown"` and is sorted in such a way that company with most contributors is at the top.  
+After getting the company details for each contributor, the response (output ) will be a list in `JSON format`  with company name and number of contributors for that respective company. This list also includes an entry for the case where the contributor has not entered any company information as `"Unknown"` and is sorted in such a way that company with most contributors is at the top...
 
 The output in JSON format is as follows: 
 
